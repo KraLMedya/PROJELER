@@ -8,4 +8,5 @@ PROJE STANDARTLARI
 
             showAlertDialog("Geçersiz lisans kodu!\n\n" +
                     "Ferdyy ile iletişime geç:\n" +
-                    "<a href='tel:+905382700400'>+90 538 2700 400</a>");
+
+                    "<a href='tel:+905382700400'>+90 538 XXXX XXX</a>");
