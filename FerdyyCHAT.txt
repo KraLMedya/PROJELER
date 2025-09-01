@@ -1,0 +1,61 @@
+projeyi ürün listeleme yerine, 
+daha sonradan uygulamaya kaydolacak kullanıcıların ana ekranda hikayeler paylaştığı,
+yorum ve beğeni aldığı, profil isimleri, profil resimleri ve isteğe bağlı hakkında bilgileri gibi alanların olacağı,
+kendilerine ait profil sayfalarının olacağı, uygulamaya kaydolan diğer kullanıcıları online/offline gibi durumlarına göre listeleyebileceği,
+dilediği kullanıcılara mesaj yazıp alabileceği ve bu mesajların altında tarih saat ve görüldü çentiklerinin olabileceği,
+aynı zamanda bu sohbet pencerelerinde her iki tarafın profil ismi ve resimlerinin de olacağı,
+ana ekrandaki hikayelerde en üstte köşeli dikdörtgenler içinde soldan sağa doğru listelenen
+online kullanıcıların resimleri üzerinde online (yeşil veya kırmızı) simgeleriyle beraber
+kullanıcı isim, yaş ve ülke şehir alanlarının olacağı, yine başka bir aktivitede kullanıcıların hikayeler,
+kısa sözler ve resimler paylaşabilmesi için istemci sunucuya girilen bilgileri gönderecek olan alanların yer alması,
+kullanıcıların birbirlerini takip etmelerinin sağlanması, istenmeyen kullanıcıları bildirme ve engelleme, profillerini görüntüleyebilme,
+hem adminin hem de kullanıcıların daha önceden yapılmış sohbetleri silebilmesi, daha önceden paylaşılmış hikayeleri silebilmesi,
+ayarlar aktivitesi oluşturularak burada uygulamaya dair hakkında, kullanım koşulları, gizlilik politikası, uygulamayı google play'de oyla,
+iletişim, uygulama önbelleğini temizle, uygulamaya gelecek olan bildirimleri kapatma, açık ve koyu tema seçimi yapılabilmesi,
+uygulamayı paylaş özelliği, ana ekranda kullanıcılar tarafından paylaşılan hikayelerde paylaşım yapılan tarih saat bilgilerinin yer alması,
+kullanıcının hesabını dilediği zaman silebilmesi ve tüm bu genel talepler için uygulamaya e-posta ve şifre ile kaydolabilme,
+giriş-çıkış yapabilme özelliği yapalım lütfen!
+
+
+
+Projenin Yeni Mimarisi
+Kimlik Doğrulama: E-posta/şifre ile kayıt, giriş ve çıkış işlemleri.
+
+Kullanıcı Yönetimi: Profil (ad, resim, bio), takip etme/takibi bırakma, engelleme, bildirme, profil silme.
+
+İçerik Paylaşımı: Hikaye, kısa söz ve resim paylaşımı, bu paylaşımlara yorum yapma ve beğeni.
+
+Gerçek Zamanlı İletişim: Online/offline durumu, anlık mesajlaşma, tarih/saat bilgisi, görüldü çentikleri.
+
+Görünüm ve Ayarlar: Ana ekranda hikaye listesi, online kullanıcıların listelenmesi, açık/koyu tema, önbellek temizleme ve uygulama ayarları.
+
+Bu özelliklerin her biri, hem backend (sunucu tarafı) hem de mobil (Android) tarafında ayrı ayrı geliştirme ve mimari planlama gerektirir.
+
+PHP Backend Tarafında Gerekenler
+Mevcut basit PHP dosyaları yerine, projenin bu ölçeğini yönetebilecek bir PHP Framework'ü (örneğin Laravel) kullanmanızı öneririm. Bir framework, güvenlik (CSRF koruması, şifreleme), veritabanı yönetimi (migration), API yönlendirme ve modüler kod yazma gibi konularda size büyük kolaylık sağlayacaktır.
+
+Yeni Veritabanı Yapısı: Artık tek bir products tablosu yeterli olmayacak. En az aşağıdaki tabloları oluşturmanız gerekecek:
+
+users: Kullanıcı bilgileri (e-posta, şifre hash'i, profil resmi, bio, vb.).
+
+stories: Hikaye paylaşımları (kullanıcı ID'si, resim URL'si, metin, zaman damgası).
+
+comments: Yorumlar (yorumun yapıldığı hikaye ID'si, yorum yapan kullanıcı ID'si, yorum metni).
+
+likes: Beğeniler (beğenen kullanıcı ID'si, beğenilen hikaye ID'si).
+
+followers: Takip ilişkileri (takip eden ve takip edilen kullanıcı ID'leri).
+
+messages: Mesajlar (gönderen, alıcı, mesaj metni, zaman damgası, görüldü bilgisi).
+
+blocks: Engellenen kullanıcılar (engelleyen ve engellenen kullanıcı ID'leri).
+
+Android Mobil Uygulama Tarafında Gerekenler
+Tek bir MainActivity yerine, uygulamanızın farklı ekranları için birden fazla Activity veya Fragment kullanmanız gerekecektir (örneğin: LoginActivity, RegisterActivity, HomeActivity, ProfileActivity, ChatActivity, SettingsActivity).
+
+Veri Yönetimi: Artık sadece ürün listesi çekmek yerine, her bir ekran için farklı API uç noktalarından veri çekeceksiniz (kullanıcı profili için /api/profile, hikayeler için /api/stories, mesajlar için /api/messages, vb.).
+
+Gerçek Zamanlı İletişim: Mesajlaşma ve online/offline durumu gibi gerçek zamanlı özellikler için WebSockets veya Firebase Cloud Messaging (FCM) gibi teknolojilerin entegrasyonu gereklidir. Bu, sadece standart bir HTTP isteği (Retrofit) ile çözülemez.
+
+Kullanıcı Arayüzü (UI): Farklı ve karmaşık listeler için RecyclerView'ı birden fazla yerde kullanmanız gerekecektir.
+
